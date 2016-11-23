@@ -1,54 +1,59 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+//import the library we required
+// use import instead of require
 
-import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+//var React = require('react-native');
+//var AppRegistry = React.AppRegistry;
+//var Text = React.Text;
+//var View = React.View;
+//var DayItem = require('./src/day-item');
 
-export default class weekdays extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-          This is our first app!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
-    );
-  }
-}
+import React from 'react';
+import Moment from 'moment';
+import { View, Text, AppRegistry, StyleSheet} from 'react-native';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+
+import DayItem from './src/day-item';
+
+//Crete a react component
+var Weekdays = React.createClass({
+    render:function(){
+        //return some code to display the interface
+        //Use JSX in react to render html
+        // add the style in the tags
+        return <View style = {styles.container} >
+            {this.days()}
+        </View>
+    },
+
+    //utility function
+    days: function(){
+        var daysItems = [];
+        for (let i = 0; i < 7; i++){
+            var day = Moment().add(i,'days').format('dddd');
+
+            daysItems.push(
+                <DayItem day={day} daysUntil={i} key = {i}/>
+            );
+        }
+        return daysItems;
+    }
 });
 
-AppRegistry.registerComponent('weekdays', () => weekdays);
+//style the react component
+//flex: ???
+//justify: 上下居中
+//alighItems: 左右居中
+var styles = StyleSheet.create({
+    container: {
+        flex:1,
+        justifyContent: 'center',
+        alignItems:'center'
+    }
+});
+
+//Show the react component on the screen
+AppRegistry.registerComponent('weekdays',function(){
+    return Weekdays;
+})
+
+
